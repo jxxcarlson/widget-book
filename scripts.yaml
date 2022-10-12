@@ -1,0 +1,10 @@
+scripts:
+
+
+  watch: npx elm-watch hot
+   
+  serve: npx serve build -l 4000
+
+ 
+  
+
