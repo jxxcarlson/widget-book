@@ -3,7 +3,7 @@ module Book exposing (main)
 
 import ElmBook exposing (withChapters)
 import ElmBook.StatefulOptions
-import ButtonChapter exposing (chapter_)
+import ButtonChapter exposing (buttonChapter)
 import Element exposing (Element, el, text)
 -- import Element.Background as Background
 -- import Element.Events as Events
@@ -31,6 +31,6 @@ main =
         |> ElmBook.withStatefulOptions
             [ ElmBook.StatefulOptions.initialState initialState ]
         |> withChapters
-            [ ButtonChapter.chapter_
+            [ ButtonChapter.buttonChapter
             ]
 

@@ -1,4 +1,4 @@
-module ButtonChapter exposing (Model, init, chapter_)
+module ButtonChapter exposing (Model, init, buttonChapter)
 
 
 import ElmBook.Chapter exposing (chapter, renderStatefulComponent, renderStatefulComponentList, render)
@@ -22,31 +22,53 @@ init : Model
 init = 0
 
 
-chapter_ : Chapter { x | buttonChapterModel : Model }
-chapter_ =
+buttonChapter : Chapter { x | buttonChapterModel : Model }
+buttonChapter =
     chapter "Buttons"
-      --  |> renderStatefulComponent ( \{ buttonChapterModel } -> view buttonChapterModel  |> foo  )
       |> renderStatefulComponentList [ 
-           ("foo", \{ buttonChapterModel } -> view buttonChapterModel  |> foo  )
-           --, ("bar", chapter "hoho" |> render content   )
+           ("Cancel button", \{ buttonChapterModel } -> view buttonChapterModel  |> Element.map mapUpdater  )
+           -- WANT TO RENDER content (markdown) HERE
+           -- Need something like 'ElmBook.UI.Markdown.view content |> Element.html'
          ]
-        -- |> render content
+      
 
-foo = Element.map bar
-
-bar = mapUpdate
+mapUpdater = mapUpdate
         { toState = \state chapter1Model_ -> { state | buttonChapterModel = chapter1Model_ }
         , fromState = \state -> state.buttonChapterModel
         , update = update
         }
 
 
-yada  = \state chapter1Model_ -> { state | buttonChapterModel = chapter1Model_ }
-
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         NoOp -> model
+
+view : Model -> Element Msg
+view model =
+   Element.column [Element.spacing 12] 
+     [ Element.text "This is a test."
+      , cancelButton
+     ] 
+
+content = """
+```elm
+cancelButton = Button.template 
+                 Button.defaultStyle 
+                 {msg = NoOp, label = "Cancel", tooltipText = Nothing}
+```
+"""
+
+
+cancelButton = Button.template Button.defaultStyle {msg = NoOp, label = "Cancel", tooltipText = Nothing}
+
+                                                                                                                                                                                                                                                                                                                                  
+
+-- viewMarkdown : String -> Element msg
+-- viewMarkdown content =
+--     ElmBook.UI.Markdown.view content |> Element.html
+--         -- |> withOther "stuff"
+--         -- |> withAnd [ "x" [] ]
 
 
 -- chapter : String -> ChapterBuilder state html
@@ -65,29 +87,3 @@ update msg model =
 --     -> Msg state
 
 -- render : String -> ChapterBuilder state html -> ChapterCustom state html
-
-view : Model -> Element Msg
-view model =
-   Element.column [Element.spacing 12] 
-     [ Element.text "This is a test."
-      , cancelButton
-      --, render content 
-     ] 
-
-content = """
-```elm
-cancelButton = Button.template 
-                 Button.defaultStyle 
-                 {msg = NoOp, label = "Cancel", tooltipText = Nothing}
-```
-"""
-
--- viewMarkdown : String -> Element msg
--- viewMarkdown content =
---     ElmBook.UI.Markdown.view content |> Element.html
---         -- |> withOther "stuff"
---         -- |> withAnd [ "x" [] ]
-
-cancelButton = Button.template Button.defaultStyle {msg = NoOp, label = "Cancel", tooltipText = Nothing}
-
-                                                                                                                                                                                                                                                                                                                                  
