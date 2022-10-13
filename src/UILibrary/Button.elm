@@ -10,7 +10,7 @@ import Element.Background as Background
 import Element.Events as Events
 import Element.Font as Font
 import Element.Input as Input
-import UILibrary.Color as Color
+import UILibrary.Color 
 import Element.Border as Border
 import Html.Attributes as HA
 
@@ -27,9 +27,24 @@ type alias Data msg = { msg : msg, label : String, tooltipText :Maybe  String}
 defaultStyle : Style msg
 defaultStyle = 
    { tooltipPlacement = Element.above
-   , attributes = [Color.bgGray 0.2,Element.paddingXY 12 6, Element.mouseDown [ Background.color Color.darkRed] ]
-   , labelAttributes = [Color.fgGray 1.0, Element.centerX, Element.centerY, Font.size 14]
+   , attributes = [
+        Background.color UILibrary.Color.darkGray
+      , Element.paddingXY 12 6
+      , Element.mouseDown [ Background.color UILibrary.Color.darkRed] ]
+   , labelAttributes = [Font.color UILibrary.Color.white, Element.centerX, Element.centerY, Font.size 14]
+
    }
+
+
+
+noFocusOption = Element.focusStyle noFocus
+
+noFocus : Element.FocusStyle
+noFocus =
+    { borderColor = Nothing
+    , backgroundColor = Nothing
+    , shadow = Nothing
+    }
 
 
 template : Style msg -> Data msg -> Element msg

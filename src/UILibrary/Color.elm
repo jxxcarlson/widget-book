@@ -1,128 +1,240 @@
 module UILibrary.Color exposing
-    ( fgGray
-    , bgGray
-    , darkRed
+    (
+      darkRed
+    , grayExample
+    , redExample
+    , greenExample
+    , blueExample
+    , white
+    , paleGray
+    , lightGray
+    , mediumGray
+    , darkGray
+    , black
     )
 
-import Element as E
+import Element exposing(Element)
 import Element.Background as Background
 import Element.Font as Font
 
-fgGray : Float -> E.Attr decorative msg
-fgGray g =
-    Font.color (E.rgb g g g)
+
+-- GRAYS
+
+grayExample =
+  Element.row [Element.spacing 24] [
+      Element.el [Font.size 14, Element.padding 12, Font.color paleGray, Background.color black] (Element.text "paleGray on black")
+    , Element.el [Font.size 14, Element.padding 12, Font.color white, Background.color darkGray] (Element.text "white on darkGray")
+    , Element.el [Font.size 14, Element.padding 12, Font.color white, Background.color mediumGray] (Element.text "white on medimGray")
+    , Element.el [Font.size 14, Element.padding 12, Font.color black, Background.color lightGray] (Element.text "black on lightGray")
+    , Element.el [Font.size 14, Element.padding 12, Font.color black, Background.color paleGray] (Element.text "black on paleGray")
+
+  ]
+
+gray : Float -> Element.Color
+gray g = Element.rgb g g g
+
+white : Element.Color
+white = gray 1.0
+
+paleGray : Element.Color
+paleGray = gray 0.8
+
+lightGray : Element.Color
+lightGray = gray 0.6
+
+mediumGray : Element.Color
+mediumGray = gray 0.4
+
+darkGray : Element.Color
+darkGray = gray 0.2
+
+black : Element.Color
+black = gray 0.0
 
 
-bgGray : Float -> E.Attr decorative msg
-bgGray g =
-    Background.color (E.rgb g g g)
+-- REDS
+
+redExample =
+  Element.row [Element.spacing 24] [
+      Element.el [Font.size 14, Element.padding 12, Font.color white, Background.color darkRed] (Element.text "white on green")
+    , Element.el [Font.size 14, Element.padding 12, Font.color white, Background.color red] (Element.text "white on red")
+    , Element.el [Font.size 14, Element.padding 12, Font.color white, Background.color mediumRed] (Element.text "white on mediumRed")
+    , Element.el [Font.size 14, Element.padding 12, Font.color black, Background.color pink] (Element.text "black on pink")
+
+  ]
 
 
-darkRed : E.Color
+darkRed : Element.Color
 darkRed =
-    E.rgb255 140 0 0
+    Element.rgb255 140 0 0
+
+
+red : Element.Color
+red =
+    Element.rgb 1 0 0
+
+
+mediumRed : Element.Color
+mediumRed =
+    Element.rgb 1 0.5 0.5
+
+
+pink : Element.Color
+pink =
+    Element.rgb 1 0.8 0.8
+
+-- GREENS
+
+greenExample =
+  Element.row [Element.spacing 24] [
+      Element.el [Font.size 14, Element.padding 12, Font.color white, Background.color darkGreen] (Element.text "white on darkGreen")
+    , Element.el [Font.size 14, Element.padding 12, Font.color black, Background.color green] (Element.text "black on green")
+    , Element.el [Font.size 14, Element.padding 12, Font.color black, Background.color mediumGreen] (Element.text "black on mediumGreen")
+    , Element.el [Font.size 14, Element.padding 12, Font.color black, Background.color paleGreen] (Element.text "black on paleGreen")
+
+  ]
+
+darkGreen : Element.Color
+darkGreen =
+    Element.rgb255 0 140 0
+
+green : Element.Color
+green = Element.rgb 0 1 0
+
+mediumGreen : Element.Color
+mediumGreen = Element.rgb 0.5 1 0.5
+
+paleGreen : Element.Color
+paleGreen = Element.rgb 0.8 1 0.8
+
+
+-- BLUES
+
+
+blueExample =
+  Element.row [Element.spacing 24] [
+      Element.el [Font.size 14, Element.padding 12, Font.color white, Background.color darkBlue] (Element.text "white on darkBlue")
+    , Element.el [Font.size 14, Element.padding 12, Font.color white, Background.color blue] (Element.text "white on blue")
+    , Element.el [Font.size 14, Element.padding 12, Font.color black, Background.color mediumBlue] (Element.text "black on mediumBlue")
+    , Element.el [Font.size 14, Element.padding 12, Font.color black, Background.color paleBlue] (Element.text "black on paleBlue")
+
+  ]
+
+darkBlue : Element.Color
+darkBlue =
+    Element.rgb255 0 0 140
+
+blue : Element.Color
+blue = Element.rgb 0 0 1
+
+mediumBlue : Element.Color
+mediumBlue = Element.rgb 0.5 0.5 1
+
+paleBlue : Element.Color
+paleBlue = Element.rgb 0.8 0.8 1
+
 
 -- paleGreen =
---     E.rgb 230 230 255
+--     Element.rgb 230 230 255
 
 
--- white : E.Color
+-- white : Element.Color
 -- white =
---     E.rgb 255 255 255
+--     Element.rgb 255 255 255
 
 
 -- palePink =
---     E.rgb 1.0 0.9 0.93
+--     Element.rgb 1.0 0.9 0.93
 
 
--- lightGray : E.Color
+-- lightGray : Element.Color
 -- lightGray =
 --     gray 0.9
 
 
--- medGray : E.Color
+-- medGray : Element.Color
 -- medGray =
 --     gray 0.5
 
 
--- darkGray : E.Color
+-- darkGray : Element.Color
 -- darkGray =
 --     gray 0.3
 
 
--- black : E.Color
+-- black : Element.Color
 -- black =
 --     gray 0.2
 
 
--- red : E.Color
+-- red : Element.Color
 -- red =
---     E.rgb255 255 0 0
+--     Element.rgb255 255 0 0
 
--- paleRed : E.Color
+-- paleRed : Element.Color
 -- paleRed =
---     E.rgb255 140 100 100
+--     Element.rgb255 140 100 100
 
 
--- blue : E.Color
+-- blue : Element.Color
 -- blue =
---     E.rgb255 0 0 140
+--     Element.rgb255 0 0 140
 
 
--- darkBlue : E.Color
+-- darkBlue : Element.Color
 -- darkBlue =
---     E.rgb255 0 0 120
+--     Element.rgb255 0 0 120
 
 
--- lightBlue : E.Color
+-- lightBlue : Element.Color
 -- lightBlue =
---     E.rgb255 120 120 200
+--     Element.rgb255 120 120 200
 
 
 -- yellow =
---     E.rgb 0.8 0.8 0
+--     Element.rgb 0.8 0.8 0
 
 
--- mediumBlue : E.Color
+-- mediumBlue : Element.Color
 -- mediumBlue =
---     E.rgb255 80 80 255
+--     Element.rgb255 80 80 255
 
 
--- paleBlue : E.Color
+-- paleBlue : Element.Color
 -- paleBlue =
---     E.rgb255 180 180 255
+--     Element.rgb255 180 180 255
 
 
--- veryPaleBlue : E.Color
+-- veryPaleBlue : Element.Color
 -- veryPaleBlue =
---     E.rgb 0.9 0.9 1.0
+--     Element.rgb 0.9 0.9 1.0
 
 
--- mediumPaleBlue : E.Color
+-- mediumPaleBlue : Element.Color
 -- mediumPaleBlue =
---     E.rgb 0.85 0.85 1.0
+--     Element.rgb 0.85 0.85 1.0
 
 
--- transparentBlue : E.Color
+-- transparentBlue : Element.Color
 -- transparentBlue =
---     E.rgba 0.9 0.9 1 0.9
+--     Element.rgba 0.9 0.9 1 0.9
 
 
--- paleViolet : E.Color
+-- paleViolet : Element.Color
 -- paleViolet =
---     E.rgb255 230 230 255
+--     Element.rgb255 230 230 255
 
 
--- violet : E.Color
+-- violet : Element.Color
 -- violet =
---     E.rgb 0.95 0.9 1.0
+--     Element.rgb 0.95 0.9 1.0
 
 
--- gray : Float -> E.Color
+-- gray : Float -> Element.Color
 -- gray g =
---     E.rgb g g g
+--     Element.rgb g g g
 
 
--- green : E.Color
+-- green : Element.Color
 -- green =
---     E.rgb 0 1 0
+--     Element.rgb 0 1 0

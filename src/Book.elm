@@ -4,6 +4,7 @@ module Book exposing (main)
 import ElmBook exposing (withChapters)
 import ElmBook.StatefulOptions
 import ButtonChapter exposing (buttonChapter)
+import ColorChapter exposing(colorChapter)
 import Element exposing (Element, el, text)
 -- import Element.Background as Background
 -- import Element.Events as Events
@@ -16,12 +17,14 @@ import ElmBook.ElmUI exposing (Book, book, Chapter)
 
 type alias SharedState =
     { buttonChapterModel : ButtonChapter.Model
+    , colorChapterModel : ColorChapter.Model
     }
 
 
 initialState : SharedState
 initialState =
     { buttonChapterModel = ButtonChapter.init
+    , colorChapterModel = ColorChapter.init
     }
 
 
@@ -32,5 +35,6 @@ main =
             [ ElmBook.StatefulOptions.initialState initialState ]
         |> withChapters
             [ ButtonChapter.buttonChapter
+            , ColorChapter.colorChapter
             ]
 
