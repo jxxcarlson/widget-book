@@ -22,12 +22,12 @@ init : Model
 init = 0
 
 
-chapter_ : Chapter { x | chapter1Model : Model }
+chapter_ : Chapter { x | buttonChapterModel : Model }
 chapter_ =
     chapter "Buttons"
-      --  |> renderStatefulComponent ( \{ chapter1Model } -> view chapter1Model  |> foo  )
+      --  |> renderStatefulComponent ( \{ buttonChapterModel } -> view buttonChapterModel  |> foo  )
       |> renderStatefulComponentList [ 
-           ("foo", \{ chapter1Model } -> view chapter1Model  |> foo  )
+           ("foo", \{ buttonChapterModel } -> view buttonChapterModel  |> foo  )
            --, ("bar", chapter "hoho" |> render content   )
          ]
         -- |> render content
@@ -35,13 +35,13 @@ chapter_ =
 foo = Element.map bar
 
 bar = mapUpdate
-        { toState = \state chapter1Model_ -> { state | chapter1Model = chapter1Model_ }
-        , fromState = \state -> state.chapter1Model
+        { toState = \state chapter1Model_ -> { state | buttonChapterModel = chapter1Model_ }
+        , fromState = \state -> state.buttonChapterModel
         , update = update
         }
 
 
-yada  = \state chapter1Model_ -> { state | chapter1Model = chapter1Model_ }
+yada  = \state chapter1Model_ -> { state | buttonChapterModel = chapter1Model_ }
 
 update : Msg -> Model -> Model
 update msg model =

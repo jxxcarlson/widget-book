@@ -15,13 +15,13 @@ import Element exposing (Element, el, text)
 import ElmBook.ElmUI exposing (Book, book, Chapter)
 
 type alias SharedState =
-    { chapter1Model : ButtonChapter.Model
+    { buttonChapterModel : ButtonChapter.Model
     }
 
 
 initialState : SharedState
 initialState =
-    { chapter1Model = ButtonChapter.init
+    { buttonChapterModel = ButtonChapter.init
     }
 
 
