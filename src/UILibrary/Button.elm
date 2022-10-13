@@ -1,10 +1,11 @@
 module UILibrary.Button exposing(
        template
+      , defaultStyle
       , Data
       , Style
     )
 
-import Element as E exposing (Element)
+import Element exposing (Element)
 import Element.Background as Background
 import Element.Events as Events
 import Element.Font as Font
@@ -15,67 +16,78 @@ import Html.Attributes as HA
 
 
 type alias Style msg =
-    { tooltipPlacement : Element msg -> E.Attribute msg
-    , attributes : List (E.Attribute msg)
-    , labelAttributes : List (E.Attribute msg)
+    { tooltipPlacement : Element msg -> Element.Attribute msg
+    , attributes : List (Element.Attribute msg)
+    , labelAttributes : List (Element.Attribute msg)
     }
 
 
-type alias Data msg = { msg : msg, label : String, tooltipText : String}
+type alias Data msg = { msg : msg, label : String, tooltipText :Maybe  String}
+
+defaultStyle : Style msg
+defaultStyle = 
+   { tooltipPlacement = Element.above
+   , attributes = [Color.bgGray 0.2,Element.paddingXY 12 6, Element.mouseDown [ Background.color Color.darkRed] ]
+   , labelAttributes = [Color.fgGray 1.0, Element.centerX, Element.centerY, Font.size 14]
+   }
 
 
 template : Style msg -> Data msg -> Element msg
 template style data =
-    E.row [ E.pointer, E.mouseDown [ Background.color Color.darkRed ] ]
+    Element.row [ Element.pointer ]
         [ Input.button style.attributes
             { onPress = Just data.msg
-            , label = addTooltip style.tooltipPlacement data.tooltipText 
-                (E.el style.labelAttributes (E.text data.label))
+            , label = case data.tooltipText of 
+                 Nothing -> (Element.el style.labelAttributes (Element.text data.label))
+                 Just ttText -> 
+                   addTooltip style.tooltipPlacement ttText
+                    (Element.el style.labelAttributes (Element.text data.label))
             }
         ]
+
 
 
 -- TOOLTIP
 
 myTooltip : String -> Element msg
 myTooltip str =
-    E.el
-        [ Background.color (E.rgb 0 0 0)
-        , Font.color (E.rgb 1 1 1)
-        , E.padding 4
+    Element.el
+        [ Background.color (Element.rgb 0 0 0)
+        , Font.color (Element.rgb 1 1 1)
+        , Element.padding 4
         , Border.rounded 5
         , Font.size 14
         , Border.shadow
-            { offset = ( 0, 3 ), blur = 6, size = 0, color = E.rgba 0 0 0 0.32 }
+            { offset = ( 0, 3 ), blur = 6, size = 0, color = Element.rgba 0 0 0 0.32 }
         ]
-        (E.text str)
+        (Element.text str)
 
 
 
 --
 
 
-tooltip : (Element msg -> E.Attribute msg) -> Element Never -> E.Attribute msg
+tooltip : (Element msg -> Element.Attribute msg) -> Element Never -> Element.Attribute msg
 tooltip usher tooltip_ =
-    E.inFront <|
-        E.el
-            [ E.width E.fill
-            , E.height E.fill
-            , E.transparent True
-            , E.mouseOver [ E.transparent False ]
-            , (usher << E.map never) <|
-                E.el
-                    [ E.htmlAttribute (HA.style "pointerEvents" "none") ]
+    Element.inFront <|
+        Element.el
+            [ Element.width Element.fill
+            , Element.height Element.fill
+            , Element.transparent True
+            , Element.mouseOver [ Element.transparent False ]
+            , (usher << Element.map never) <|
+                Element.el
+                    [ Element.htmlAttribute (HA.style "pointerEvents" "none") ]
                     tooltip_
             ]
-            E.none
+            Element.none
 
 
 
--- addTooltip : (Element msg -> E.Attribute msg) -> String -> E.Element -> E.Element
+-- addTooltip : (Element msg -> Element.Attribute msg) -> String -> Element.Element -> Element.Element
 
 
 addTooltip placement label element =
-    E.el
+    Element.el
         [ tooltip placement (myTooltip label) ]
         element
