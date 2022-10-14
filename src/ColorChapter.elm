@@ -78,6 +78,9 @@ Below is a list of grays, which are accessed as `UILibray.Color.black`, `UILibra
 
 <component with-label="Blues" />
 
+## Mixed colors
+
+
 """
 
 

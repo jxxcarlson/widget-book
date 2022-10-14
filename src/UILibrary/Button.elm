@@ -1,18 +1,22 @@
-module UILibrary.Button exposing(
-       template
-      , defaultStyle
-      , Data
-      , Style
+module UILibrary.Button exposing
+    ( Data
+    , Style
+    , defaultStyle
+    , template
+    , templateWithIcon
     )
 
 import Element exposing (Element)
 import Element.Background as Background
-import Element.Events as Events
+import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import UILibrary.Color 
-import Element.Border as Border
 import Html.Attributes as HA
+import UILibrary.Color
+
+
+yada =
+    1234
 
 
 type alias Style msg =
@@ -22,22 +26,29 @@ type alias Style msg =
     }
 
 
-type alias Data msg = { msg : msg, label : String, tooltipText :Maybe  String}
+type alias Data msg =
+    { msg : msg, label : String, tooltipText : Maybe String }
+
+
+type alias DataWithIcon msg =
+    { msg : msg, tooltipText : Maybe String, icon : String, iconText : String }
+
 
 defaultStyle : Style msg
-defaultStyle = 
-   { tooltipPlacement = Element.above
-   , attributes = [
-        Background.color UILibrary.Color.darkGray
-      , Element.paddingXY 12 6
-      , Element.mouseDown [ Background.color UILibrary.Color.darkRed] ]
-   , labelAttributes = [Font.color UILibrary.Color.white, Element.centerX, Element.centerY, Font.size 14]
+defaultStyle =
+    { tooltipPlacement = Element.above
+    , attributes =
+        [ Background.color UILibrary.Color.darkGray
+        , Element.paddingXY 12 6
+        , Element.mouseDown [ Background.color UILibrary.Color.darkRed ]
+        ]
+    , labelAttributes = [ Font.color UILibrary.Color.white, Element.centerX, Element.centerY, Font.size 14 ]
+    }
 
-   }
 
+noFocusOption =
+    Element.focusStyle noFocus
 
-
-noFocusOption = Element.focusStyle noFocus
 
 noFocus : Element.FocusStyle
 noFocus =
@@ -52,17 +63,44 @@ template style data =
     Element.row [ Element.pointer ]
         [ Input.button style.attributes
             { onPress = Just data.msg
-            , label = case data.tooltipText of 
-                 Nothing -> (Element.el style.labelAttributes (Element.text data.label))
-                 Just ttText -> 
-                   addTooltip style.tooltipPlacement ttText
-                    (Element.el style.labelAttributes (Element.text data.label))
+            , label =
+                case data.tooltipText of
+                    Nothing ->
+                        Element.el style.labelAttributes (Element.text data.label)
+
+                    Just ttText ->
+                        addTooltip style.tooltipPlacement
+                            ttText
+                            (Element.el style.labelAttributes (Element.text data.label))
+            }
+        ]
+
+
+
+-- label = Element.image [ Element.width (Element.px 27), Element.height (Element.px 27), Element.moveLeft 12 ] { src = "/bug.png", description = "Bug report" }
+
+
+templateWithIcon : Style msg -> DataWithIcon msg -> Element msg
+templateWithIcon style data =
+    Element.row [ Element.pointer ]
+        [ Input.button []
+            { onPress = Just data.msg
+            , label =
+                case data.tooltipText of
+                    Nothing ->
+                        Element.image [ Element.width (Element.px 27), Element.height (Element.px 27) ] { src = data.icon, description = data.iconText }
+
+                    Just ttText ->
+                        addTooltip style.tooltipPlacement
+                            ttText
+                            (Element.image [ Element.width (Element.px 27), Element.height (Element.px 27) ] { src = data.icon, description = data.iconText })
             }
         ]
 
 
 
 -- TOOLTIP
+
 
 myTooltip : String -> Element msg
 myTooltip str =

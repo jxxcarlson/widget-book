@@ -27,7 +27,8 @@ buttonChapter : Chapter { x | buttonChapterModel : Model }
 buttonChapter =
     chapter "Buttons"
       |> withStatefulComponentList [ 
-           ("Cancel button", \{ buttonChapterModel } -> view buttonChapterModel  |> Element.map mapUpdater  )
+             ("Cancel button", \{ buttonChapterModel } -> view buttonChapterModel  |> Element.map mapUpdater  )
+           , ("Bug button", \{ buttonChapterModel } -> viewBug buttonChapterModel  |> Element.map mapUpdater  )
          ]
       |> render content
       
@@ -47,9 +48,14 @@ update msg model =
 view : Model -> Element Msg
 view model =
    Element.column [Element.spacing 12] 
-     [ Element.text "This is a test."
-      , cancelButton
-     ] 
+     [  cancelButton
+     ]
+
+viewBug : Model -> Element Msg
+viewBug model =
+   Element.column [Element.spacing 12]
+     [  bugButton
+     ]
 
 content = """
 ## Buttons
@@ -97,9 +103,27 @@ type alias Style msg =
     , labelAttributes : List (Element.Attribute msg)
     }
 ```
+
+### Button with icon
+
+<component with-label="Bug button" />
+
+```
+bugButton = UILibrary.Button.templateWithIcon
+     UILibrary.Button.defaultStyle
+     {   msg = NoOp
+       , tooltipText = Just "Bug reporter"
+       , icon = "bug-strong.png"
+       , iconText = "Bug reporter"}
+```
 """
 
 
-cancelButton = UILibrary.Button.template UILibrary.Button.defaultStyle {msg = NoOp, label = "Cancel", tooltipText = Nothing}
+cancelButton = UILibrary.Button.template UILibrary.Button.defaultStyle
+                 {msg = NoOp, label = "Cancel", tooltipText = Nothing}
+
+bugButton = UILibrary.Button.templateWithIcon UILibrary.Button.defaultStyle
+     {msg = NoOp, tooltipText = Just "Bug reporter", icon = "bug-strong.png", iconText = "Bug reporter"}
+
 
     
