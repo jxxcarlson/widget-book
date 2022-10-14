@@ -1,9 +1,9 @@
 module UILibrary.Button exposing
-    ( Data
-    , Style
-    , defaultStyle
-    , template
-    , templateWithIcon
+    ( Label(..)
+    , Params
+    , Status(..)
+    , largePrimary
+    , smallPrimary
     )
 
 import Element exposing (Element)
@@ -15,85 +15,150 @@ import Html.Attributes as HA
 import UILibrary.Color
 
 
-yada =
-    1234
+largePrimary : Params msg -> Element msg
+largePrimary params =
+    template (largePrimaryStyle params.status) params
+
+
+smallPrimary : Params msg -> Element msg
+smallPrimary params =
+    template (smallPrimaryStyle params.status) params
+
+
+type alias Params msg =
+    { msg : msg, label : Label, status : Status, tooltipText : Maybe String }
+
+
+type Status
+    = Active
+    | Inactive
+    | Highlighted
+
+
+type Label
+    = Text String
+    | Icon String
 
 
 type alias Style msg =
     { tooltipPlacement : Element msg -> Element.Attribute msg
     , attributes : List (Element.Attribute msg)
     , labelAttributes : List (Element.Attribute msg)
+    , iconSize : Int
     }
 
 
-type alias Data msg =
-    { msg : msg, label : String, tooltipText : Maybe String }
-
-
-type alias DataWithIcon msg =
-    { msg : msg, tooltipText : Maybe String, icon : String, iconText : String }
-
-
-defaultStyle : Style msg
-defaultStyle =
-    { tooltipPlacement = Element.above
-    , attributes =
-        [ Background.color UILibrary.Color.darkGray
-        , Element.paddingXY 12 6
-        , Element.mouseDown [ Background.color UILibrary.Color.darkRed ]
-        ]
-    , labelAttributes = [ Font.color UILibrary.Color.white, Element.centerX, Element.centerY, Font.size 14 ]
-    }
-
-
-noFocusOption =
-    Element.focusStyle noFocus
-
-
-noFocus : Element.FocusStyle
-noFocus =
-    { borderColor = Nothing
-    , backgroundColor = Nothing
-    , shadow = Nothing
-    }
-
-
-template : Style msg -> Data msg -> Element msg
-template style data =
+template : Style msg -> Params msg -> Element msg
+template style params =
     Element.row [ Element.pointer ]
-        [ Input.button style.attributes
-            { onPress = Just data.msg
+        [ Input.button (realAttributes params.label style.attributes)
+            { onPress = Just params.msg
             , label =
-                case data.tooltipText of
-                    Nothing ->
-                        Element.el style.labelAttributes (Element.text data.label)
+                case ( params.label, params.tooltipText ) of
+                    ( Text labelText, Nothing ) ->
+                        Element.el style.labelAttributes (Element.text labelText)
 
-                    Just ttText ->
+                    ( Text labelText, Just ttText ) ->
                         addTooltip style.tooltipPlacement
                             ttText
-                            (Element.el style.labelAttributes (Element.text data.label))
+                            (Element.el style.labelAttributes (Element.text labelText))
+
+                    ( Icon iconName, Nothing ) ->
+                        Element.image [ Element.width (Element.px style.iconSize), Element.height (Element.px style.iconSize) ] { src = iconName, description = iconName }
+
+                    ( Icon iconName, Just ttText ) ->
+                        addTooltip style.tooltipPlacement
+                            ttText
+                            (Element.image [ Element.width (Element.px style.iconSize), Element.height (Element.px style.iconSize) ] { src = iconName, description = iconName })
             }
         ]
+
+
+realAttributes label attributes =
+    case label of
+        Text _ ->
+            attributes
+
+        Icon _ ->
+            []
+
+
+type alias ParamsWithIcon msg =
+    { msg : msg, tooltipText : Maybe String, icon : String, iconSize : Int, iconText : String }
+
+
+largePrimaryStyle : Status -> Style msg
+largePrimaryStyle status =
+    { tooltipPlacement = Element.above
+    , attributes =
+        [ Background.color (bgColor status)
+        , Element.paddingXY 12 6
+        , Element.mouseDown
+            [ Background.color (fgColor status)
+            ]
+        ]
+    , iconSize = 27
+    , labelAttributes = [ Font.color (fgColor status), Element.centerX, Element.centerY, Font.size 14 ]
+    }
+
+
+smallPrimaryStyle : Status -> Style msg
+smallPrimaryStyle status =
+    { tooltipPlacement = Element.above
+    , attributes =
+        [ Background.color (bgColor status)
+        , Element.paddingXY 8 4
+        , Element.mouseDown [ Background.color (fgColor status) ]
+        ]
+    , iconSize = 19
+    , labelAttributes = [ Font.color UILibrary.Color.white, Element.centerX, Element.centerY, Font.size 12 ]
+    }
+
+
+bgColor : Status -> Element.Color
+bgColor status =
+    case status of
+        Active ->
+            UILibrary.Color.darkGray
+
+        Inactive ->
+            UILibrary.Color.lightGray
+
+        Highlighted ->
+            UILibrary.Color.darkRed
+
+
+fgColor : Status -> Element.Color
+fgColor status =
+    case status of
+        Active ->
+            UILibrary.Color.white
+
+        Inactive ->
+            UILibrary.Color.black
+
+        Highlighted ->
+            UILibrary.Color.white
 
 
 
 -- label = Element.image [ Element.width (Element.px 27), Element.height (Element.px 27), Element.moveLeft 12 ] { src = "/bug.png", description = "Bug report" }
 
 
-templateWithIcon : Style msg -> DataWithIcon msg -> Element msg
-templateWithIcon style data =
+templateWithIcon : Style msg -> ParamsWithIcon msg -> Element msg
+templateWithIcon style params =
     Element.row [ Element.pointer ]
         [ Input.button []
-            { onPress = Just data.msg
+            { onPress = Just params.msg
             , label =
-                case data.tooltipText of
+                case params.tooltipText of
                     Nothing ->
-                        Element.image [ Element.width (Element.px 27), Element.height (Element.px 27) ] { src = data.icon, description = data.iconText }
+                        Element.image [ Element.width (Element.px 27), Element.height (Element.px 27) ] { src = params.icon, description = params.iconText }
 
                     Just ttText ->
                         addTooltip style.tooltipPlacement
                             ttText
-                            (Element.image [ Element.width (Element.px 27), Element.height (Element.px 27) ] { src = data.icon, description = data.iconText })
+                            (Element.image [ Element.width (Element.px params.iconSize), Element.height (Element.px params.iconSize) ] { src = params.icon, description = params.iconText })
             }
         ]
 
