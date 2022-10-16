@@ -1,9 +1,12 @@
 module UILibrary.Button exposing
     ( Label(..)
+    , Option(..)
     , Params
     , Status(..)
     , largePrimary
+    , listItem
     , smallPrimary
+    , smallSecondary
     )
 
 import Element exposing (Element)
@@ -17,16 +20,34 @@ import UILibrary.Color
 
 largePrimary : Params msg -> Element msg
 largePrimary params =
-    template (largePrimaryStyle params.status) params
+    template (largePrimaryStyle params.status) [] params
 
 
 smallPrimary : Params msg -> Element msg
 smallPrimary params =
-    template (smallPrimaryStyle params.status) params
+    template (smallPrimaryStyle params.status) [] params
+
+
+smallSecondary : Params msg -> Element msg
+smallSecondary params =
+    template (smallSecondaryStyle params.status) [] params
+
+
+listItem : List Option -> Params msg -> Element msg
+listItem options params =
+    template (listItemStyle params.status) options params
 
 
 type alias Params msg =
-    { msg : msg, label : Label, status : Status, tooltipText : Maybe String }
+    { msg : msg
+    , label : Label
+    , status : Status
+    , tooltipText : Maybe String
+    }
+
+
+type Option
+    = FontItalic
 
 
 type Status
@@ -48,20 +69,28 @@ type alias Style msg =
     }
 
 
-template : Style msg -> Params msg -> Element msg
-template style params =
+template : Style msg -> List Option -> Params msg -> Element msg
+template style options params =
+    let
+        optionalLabelStyle =
+            if List.member FontItalic options then
+                [ Font.italic ]
+
+            else
+                []
+    in
     Element.row [ Element.pointer ]
         [ Input.button (realAttributes params.label style.attributes)
             { onPress = Just params.msg
             , label =
                 case ( params.label, params.tooltipText ) of
                     ( Text labelText, Nothing ) ->
-                        Element.el style.labelAttributes (Element.text labelText)
+                        Element.el (style.labelAttributes ++ optionalLabelStyle) (Element.text labelText)
 
                     ( Text labelText, Just ttText ) ->
                         addTooltip style.tooltipPlacement
                             ttText
-                            (Element.el style.labelAttributes (Element.text labelText))
+                            (Element.el (style.labelAttributes ++ optionalLabelStyle) (Element.text labelText))
 
                     ( Icon iconName, Nothing ) ->
                         Element.image [ Element.width (Element.px style.iconSize), Element.height (Element.px style.iconSize) ] { src = iconName, description = iconName }
@@ -107,7 +136,7 @@ smallPrimaryStyle status =
     { tooltipPlacement = Element.above
     , attributes =
         [ Background.color (bgColor status)
-        , Element.paddingXY 8 4
+        , Element.paddingXY 8 5
         , Element.mouseDown [ Background.color (fgColor status) ]
         ]
     , iconSize = 19
@@ -115,11 +144,63 @@ smallPrimaryStyle status =
     }
 
 
+smallSecondaryStyle : Status -> Style msg
+smallSecondaryStyle status =
+    { tooltipPlacement = Element.above
+    , attributes =
+        [ Background.color (bgSecondaryColor status)
+        , Element.paddingXY 8 5
+        , Element.mouseDown [ Background.color (fgColor status) ]
+        ]
+    , iconSize = 19
+    , labelAttributes = [ Font.color UILibrary.Color.white, Element.centerX, Element.centerY, Font.size 12 ]
+    }
+
+
+listItemStyle : Status -> Style msg
+listItemStyle status =
+    { tooltipPlacement = Element.above
+    , attributes =
+        [ Background.color UILibrary.Color.veryPaleBlue
+        , Element.paddingXY 4 0
+        , Element.mouseDown [ Background.color UILibrary.Color.lightBlue ]
+        ]
+    , iconSize = 19
+    , labelAttributes = [ Font.color (fgListColor status), Element.centerX, Element.centerY, Font.size 12 ]
+    }
+
+
+fgListColor : Status -> Element.Color
+fgListColor status =
+    case status of
+        Active ->
+            UILibrary.Color.darkBlue
+
+        Inactive ->
+            UILibrary.Color.mediumGray
+
+        Highlighted ->
+            UILibrary.Color.darkRed
+
+
 bgColor : Status -> Element.Color
 bgColor status =
     case status of
         Active ->
             UILibrary.Color.darkGray
+
+        Inactive ->
+            UILibrary.Color.lightGray
+
+        Highlighted ->
+            UILibrary.Color.darkRed
+
+
+bgSecondaryColor : Status -> Element.Color
+bgSecondaryColor status =
+    case status of
+        Active ->
+            UILibrary.Color.mediumGray
 
         Inactive ->
             UILibrary.Color.lightGray

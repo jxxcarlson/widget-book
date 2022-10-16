@@ -26,6 +26,7 @@ buttonChapter =
         |> withStatefulComponentList
             [ ( "Large Primary", \{ buttonChapterModel } -> viewLargeButtons buttonChapterModel |> Element.map mapUpdater )
             , ( "Small Primary", \{ buttonChapterModel } -> viewSmallButtons buttonChapterModel |> Element.map mapUpdater )
+            , ( "List Item", \{ buttonChapterModel } -> viewListItems buttonChapterModel |> Element.map mapUpdater )
             ]
         |> render content
 
@@ -65,11 +66,55 @@ viewSmallButtons model =
         ]
 
 
+viewListItems : Model -> Element Msg
+viewListItems model =
+    Element.row [ Element.spacing 24 ]
+        [ Button.listItem [] { msg = NoOp, status = Button.Active, label = Button.Text "Active", tooltipText = Nothing }
+        , Button.listItem [] { msg = NoOp, status = Button.Inactive, label = Button.Text "Inactive", tooltipText = Nothing }
+        , Button.listItem [] { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
+        , Button.listItem [ Button.FontItalic ] { msg = NoOp, status = Button.Active, label = Button.Text "Active, italic", tooltipText = Nothing }
+        ]
+
+
 content =
     """
 
-The `UILibrary.Button` module provides library of stylistically coherent buttons.  Here
-is a large primary button with a text label:
+The `UILibrary.Button` module provides library of stylistically coherent buttons,
+`largePrimary` and `smallPrimary`:
+
+
+### Gallery
+
+<component with-label="Large Primary" />
+
+<component with-label="Small Primary" />
+
+<component with-label="List Item" />
+
+### API
+
+```
+module UILibrary.Button
+
+largePrimary : Config msg -> Element msg
+
+smallPrimary : Config msg -> Element msg
+
+type alias Config msg =
+    {  msg : msg
+     , label : Label
+     , status : Status
+     , tooltipText : Maybe String }
+
+type Status
+    = Active
+    | Inactive
+    | Highlighted
+```
+
+### Usage
+
+Here is a button with a text label:
 
 ```elm
 Button.largePrimary
@@ -80,7 +125,7 @@ Button.largePrimary
    }
 ```
 
-And here is a large primary button with an icon label:
+And here is one with an icon label:
 
 ```elm
 Button.largePrimary
@@ -91,20 +136,6 @@ Button.largePrimary
    }
 ```
 
-The values for `status` are
-
-```elm
-type Status
-    = Active
-    | Inactive
-    | Highlighted
-```
-
-### Gallery
-
-<component with-label="Large Primary" />
-
-<component with-label="Small Primary" />
 
 
 """
