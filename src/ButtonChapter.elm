@@ -26,6 +26,7 @@ buttonChapter =
         |> withStatefulComponentList
             [ ( "Large Primary", \{ buttonChapterModel } -> viewLargeButtons buttonChapterModel |> Element.map mapUpdater )
             , ( "Small Primary", \{ buttonChapterModel } -> viewSmallButtons buttonChapterModel |> Element.map mapUpdater )
+            , ( "Small Secondary", \{ buttonChapterModel } -> viewSmallSecondaryButtons buttonChapterModel |> Element.map mapUpdater )
             , ( "List Item", \{ buttonChapterModel } -> viewListItems buttonChapterModel |> Element.map mapUpdater )
             ]
         |> render content
@@ -51,6 +52,7 @@ viewLargeButtons model =
     Element.row [ Element.spacing 24 ]
         [ Button.largePrimary { msg = NoOp, status = Button.Active, label = Button.Text "Active", tooltipText = Nothing }
         , Button.largePrimary { msg = NoOp, status = Button.Inactive, label = Button.Text "Inactive", tooltipText = Nothing }
+        , Button.largePrimary { msg = NoOp, status = Button.Waiting, label = Button.Text "Waiting", tooltipText = Nothing }
         , Button.largePrimary { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
         , Button.largePrimary { msg = NoOp, status = Button.Active, label = Button.Icon "bug-strong.png", tooltipText = Nothing }
         ]
@@ -61,8 +63,20 @@ viewSmallButtons model =
     Element.row [ Element.spacing 24 ]
         [ Button.smallPrimary { msg = NoOp, status = Button.Active, label = Button.Text "Active", tooltipText = Nothing }
         , Button.smallPrimary { msg = NoOp, status = Button.Inactive, label = Button.Text "Inactive", tooltipText = Nothing }
+        , Button.smallPrimary { msg = NoOp, status = Button.Waiting, label = Button.Text "Waiting", tooltipText = Nothing }
         , Button.smallPrimary { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
         , Button.smallPrimary { msg = NoOp, status = Button.Active, label = Button.Icon "bug-strong.png", tooltipText = Nothing }
+        ]
+
+
+viewSmallSecondaryButtons : Model -> Element Msg
+viewSmallSecondaryButtons model =
+    Element.row [ Element.spacing 24 ]
+        [ Button.smallSecondary { msg = NoOp, status = Button.Active, label = Button.Text "Active", tooltipText = Nothing }
+        , Button.smallSecondary { msg = NoOp, status = Button.Inactive, label = Button.Text "Inactive", tooltipText = Nothing }
+        , Button.smallSecondary { msg = NoOp, status = Button.Waiting, label = Button.Text "Waiting", tooltipText = Nothing }
+        , Button.smallSecondary { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
+        , Button.smallSecondary { msg = NoOp, status = Button.Active, label = Button.Icon "bug-strong.png", tooltipText = Nothing }
         ]
 
 
@@ -71,6 +85,7 @@ viewListItems model =
     Element.row [ Element.spacing 24 ]
         [ Button.listItem [] { msg = NoOp, status = Button.Active, label = Button.Text "Active", tooltipText = Nothing }
         , Button.listItem [] { msg = NoOp, status = Button.Inactive, label = Button.Text "Inactive", tooltipText = Nothing }
+        , Button.listItem [] { msg = NoOp, status = Button.Waiting, label = Button.Text "Waiting", tooltipText = Nothing }
         , Button.listItem [] { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
         , Button.listItem [ Button.FontItalic ] { msg = NoOp, status = Button.Active, label = Button.Text "Active, italic", tooltipText = Nothing }
         ]
@@ -88,6 +103,8 @@ The `UILibrary.Button` module provides library of stylistically coherent buttons
 <component with-label="Large Primary" />
 
 <component with-label="Small Primary" />
+
+<component with-label="Small Secondary" />
 
 <component with-label="List Item" />
 
@@ -109,6 +126,7 @@ type alias Config msg =
 type Status
     = Active
     | Inactive
+    | Waiting
     | Highlighted
 ```
 

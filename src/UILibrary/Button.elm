@@ -53,6 +53,7 @@ type Option
 type Status
     = Active
     | Inactive
+    | Waiting
     | Highlighted
 
 
@@ -179,6 +180,9 @@ fgListColor status =
         Inactive ->
             UILibrary.Color.mediumGray
 
+        Waiting ->
+            UILibrary.Color.lightBlue
+
         Highlighted ->
             UILibrary.Color.darkRed
 
@@ -191,6 +195,9 @@ bgColor status =
 
         Inactive ->
             UILibrary.Color.lightGray
+
+        Waiting ->
+            UILibrary.Color.darkBlue
 
         Highlighted ->
             UILibrary.Color.darkRed
@@ -205,6 +212,9 @@ bgSecondaryColor status =
         Inactive ->
             UILibrary.Color.lightGray
 
+        Waiting ->
+            UILibrary.Color.darkBlue
+
         Highlighted ->
             UILibrary.Color.darkRed
 
@@ -217,6 +227,9 @@ fgColor status =
 
         Inactive ->
             UILibrary.Color.black
+
+        Waiting ->
+            UILibrary.Color.white
 
         Highlighted ->
             UILibrary.Color.white
