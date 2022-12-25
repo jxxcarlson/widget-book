@@ -88,6 +88,8 @@ viewListItems model =
         , Button.listItem [] { msg = NoOp, status = Button.Waiting, label = Button.Text "Waiting", tooltipText = Nothing }
         , Button.listItem [] { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
         , Button.listItem [ Button.FontItalic ] { msg = NoOp, status = Button.Active, label = Button.Text "Active, italic", tooltipText = Nothing }
+        , Button.listItem [ Button.FontUnderline ] { msg = NoOp, status = Button.Active, label = Button.Text "Active, underline", tooltipText = Nothing }
+        , Button.listItem [ Button.FontItalic, Button.FontUnderline ] { msg = NoOp, status = Button.Active, label = Button.Text "Active, italic & underline", tooltipText = Nothing }
         ]
 
 

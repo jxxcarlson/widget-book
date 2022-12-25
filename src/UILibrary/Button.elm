@@ -48,6 +48,7 @@ type alias Params msg =
 
 type Option
     = FontItalic
+    | FontUnderline
 
 
 type Status
@@ -70,15 +71,21 @@ type alias Style msg =
     }
 
 
+styleMap : Option -> Element.Attribute msg
+styleMap option =
+    case option of
+        FontItalic ->
+            Font.italic
+
+        FontUnderline ->
+            Font.underline
+
+
 template : Style msg -> List Option -> Params msg -> Element msg
 template style options params =
     let
-        optionalLabelStyle =
-            if List.member FontItalic options then
-                [ Font.italic ]
-
-            else
-                []
+        optionalLabelStyles =
+            List.map styleMap options
     in
     Element.row [ Element.pointer ]
         [ Input.button (realAttributes params.label style.attributes)
@@ -86,12 +93,12 @@ template style options params =
             , label =
                 case ( params.label, params.tooltipText ) of
                     ( Text labelText, Nothing ) ->
-                        Element.el (style.labelAttributes ++ optionalLabelStyle) (Element.text labelText)
+                        Element.el (style.labelAttributes ++ optionalLabelStyles) (Element.text labelText)
 
                     ( Text labelText, Just ttText ) ->
                         addTooltip style.tooltipPlacement
                             ttText
-                            (Element.el (style.labelAttributes ++ optionalLabelStyle) (Element.text labelText))
+                            (Element.el (style.labelAttributes ++ optionalLabelStyles) (Element.text labelText))
 
                     ( Icon iconName, Nothing ) ->
                         Element.image [ Element.width (Element.px style.iconSize), Element.height (Element.px style.iconSize) ] { src = iconName, description = iconName }
