@@ -14,10 +14,13 @@ import Element exposing (Element, el, text)
 -- import UILibrary.Button as Button
 -- import UILibrary.Color as Color
 import ElmBook.ElmUI exposing (Book, book, Chapter)
+import Html exposing (input)
+import InputChapter
 
 type alias SharedState =
     { buttonChapterModel : ButtonChapter.Model
     , colorChapterModel : ColorChapter.Model
+    , inputChapterModel : InputChapter.Model
     }
 
 
@@ -25,6 +28,7 @@ initialState : SharedState
 initialState =
     { buttonChapterModel = ButtonChapter.init
     , colorChapterModel = ColorChapter.init
+    , inputChapterModel = InputChapter.init
     }
 
 
@@ -35,6 +39,7 @@ main =
             [ ElmBook.StatefulOptions.initialState initialState ]
         |> withChapters
             [ ButtonChapter.buttonChapter
+            , InputChapter.inputChapter
             , ColorChapter.colorChapter
             ]
 

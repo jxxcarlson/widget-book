@@ -56,6 +56,8 @@ type Status
     | Inactive
     | Waiting
     | Highlighted
+    | ActiveSpecialDark
+    | ActiveSpecialLight
 
 
 type Label
@@ -171,7 +173,7 @@ listItemStyle status =
     , attributes =
         [ Background.color UILibrary.Color.veryPaleBlue
         , Element.paddingXY 4 0
-        , Element.mouseDown [ Background.color UILibrary.Color.lightBlue ]
+        , Element.mouseDown [ Background.color UILibrary.Color.darkBlue ]
         ]
     , iconSize = 19
     , labelAttributes = [ Font.color (fgListColor status), Element.centerX, Element.centerY, Font.size 12 ]
@@ -188,10 +190,16 @@ fgListColor status =
             UILibrary.Color.mediumGray
 
         Waiting ->
-            UILibrary.Color.lightBlue
+            UILibrary.Color.darkBlue
 
         Highlighted ->
             UILibrary.Color.darkRed
+
+        ActiveSpecialDark ->
+            UILibrary.Color.darkBlue
+
+        ActiveSpecialLight ->
+            UILibrary.Color.specialBlue
 
 
 bgColor : Status -> Element.Color
@@ -209,6 +217,12 @@ bgColor status =
         Highlighted ->
             UILibrary.Color.darkRed
 
+        ActiveSpecialDark ->
+            UILibrary.Color.darkBlue
+
+        ActiveSpecialLight ->
+            UILibrary.Color.specialBlue
+
 
 bgSecondaryColor : Status -> Element.Color
 bgSecondaryColor status =
@@ -225,6 +239,12 @@ bgSecondaryColor status =
         Highlighted ->
             UILibrary.Color.darkRed
 
+        ActiveSpecialDark ->
+            UILibrary.Color.darkBlue
+
+        ActiveSpecialLight ->
+            UILibrary.Color.specialBlue
+
 
 fgColor : Status -> Element.Color
 fgColor status =
@@ -239,6 +259,12 @@ fgColor status =
             UILibrary.Color.white
 
         Highlighted ->
+            UILibrary.Color.white
+
+        ActiveSpecialDark ->
+            UILibrary.Color.white
+
+        ActiveSpecialLight ->
             UILibrary.Color.white
 
 

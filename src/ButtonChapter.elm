@@ -55,6 +55,7 @@ viewLargeButtons model =
         , Button.largePrimary { msg = NoOp, status = Button.Waiting, label = Button.Text "Waiting", tooltipText = Nothing }
         , Button.largePrimary { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
         , Button.largePrimary { msg = NoOp, status = Button.Active, label = Button.Icon "bug-strong.png", tooltipText = Nothing }
+        , Button.largePrimary { msg = NoOp, status = Button.ActiveSpecialDark, label = Button.Text "Special", tooltipText = Nothing }
         ]
 
 
