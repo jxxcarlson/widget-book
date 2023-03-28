@@ -13,6 +13,7 @@ module UILibrary.Color exposing
     , paleGray
     , redExample
     , specialBlue
+    , transparent
     , veryPaleBlue
     , white
     )
@@ -183,6 +184,11 @@ paleBlue =
 veryPaleBlue : Element.Color
 veryPaleBlue =
     Element.rgb 0.9 0.9 1.0
+
+
+transparent : Element.Color
+transparent =
+    Element.rgba 0 0 0 0
 
 
 

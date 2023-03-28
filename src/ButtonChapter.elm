@@ -56,6 +56,7 @@ viewLargeButtons model =
         , Button.largePrimary { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
         , Button.largePrimary { msg = NoOp, status = Button.Active, label = Button.Icon "bug-strong.png", tooltipText = Nothing }
         , Button.largePrimary { msg = NoOp, status = Button.ActiveSpecialDark, label = Button.Text "Special", tooltipText = Nothing }
+        , Button.largePrimary { msg = NoOp, status = Button.ActiveTransparent, label = Button.Text "Transparent", tooltipText = Nothing }
         ]
 
 
@@ -67,6 +68,7 @@ viewSmallButtons model =
         , Button.smallPrimary { msg = NoOp, status = Button.Waiting, label = Button.Text "Waiting", tooltipText = Nothing }
         , Button.smallPrimary { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
         , Button.smallPrimary { msg = NoOp, status = Button.Active, label = Button.Icon "bug-strong.png", tooltipText = Nothing }
+        , Button.smallPrimary { msg = NoOp, status = Button.ActiveTransparent, label = Button.Icon "bug-strong.png", tooltipText = Nothing }
         ]
 
 
@@ -78,6 +80,7 @@ viewSmallSecondaryButtons model =
         , Button.smallSecondary { msg = NoOp, status = Button.Waiting, label = Button.Text "Waiting", tooltipText = Nothing }
         , Button.smallSecondary { msg = NoOp, status = Button.Highlighted, label = Button.Text "Highlighted", tooltipText = Nothing }
         , Button.smallSecondary { msg = NoOp, status = Button.Active, label = Button.Icon "bug-strong.png", tooltipText = Nothing }
+        , Button.smallSecondary { msg = NoOp, status = Button.ActiveTransparent, label = Button.Icon "bug-strong.png", tooltipText = Nothing }
         ]
 
 

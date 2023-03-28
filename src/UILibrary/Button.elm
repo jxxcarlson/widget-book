@@ -58,6 +58,7 @@ type Status
     | Highlighted
     | ActiveSpecialDark
     | ActiveSpecialLight
+    | ActiveTransparent
 
 
 type Label
@@ -163,7 +164,7 @@ smallSecondaryStyle status =
         , Element.mouseDown [ Background.color (fgColor status) ]
         ]
     , iconSize = 19
-    , labelAttributes = [ Font.color UILibrary.Color.white, Element.centerX, Element.centerY, Font.size 12 ]
+    , labelAttributes = [ Font.color UILibrary.Color.darkBlue, Element.centerX, Element.centerY, Font.size 12 ]
     }
 
 
@@ -201,6 +202,9 @@ fgListColor status =
         ActiveSpecialLight ->
             UILibrary.Color.specialBlue
 
+        ActiveTransparent ->
+            UILibrary.Color.specialBlue
+
 
 bgColor : Status -> Element.Color
 bgColor status =
@@ -222,6 +226,9 @@ bgColor status =
 
         ActiveSpecialLight ->
             UILibrary.Color.specialBlue
+
+        ActiveTransparent ->
+            UILibrary.Color.transparent
 
 
 bgSecondaryColor : Status -> Element.Color
@@ -245,6 +252,9 @@ bgSecondaryColor status =
         ActiveSpecialLight ->
             UILibrary.Color.specialBlue
 
+        ActiveTransparent ->
+            UILibrary.Color.transparent
+
 
 fgColor : Status -> Element.Color
 fgColor status =
@@ -266,6 +276,9 @@ fgColor status =
 
         ActiveSpecialLight ->
             UILibrary.Color.white
+
+        ActiveTransparent ->
+            UILibrary.Color.darkBlue
 
 
 
